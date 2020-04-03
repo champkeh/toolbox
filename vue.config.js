@@ -5,9 +5,7 @@ function resolve (dir) {
 }
 
 module.exports = {
-  lintOnSave: process.env.NODE_ENV !== 'production',
-  publicPath: process.env.VUE_APP_PUBLIC_PATH,
-  outputDir: process.env.VUE_APP_BUILD_OUTPUT || 'dist',
+  publicPath: '/playground',
 
   chainWebpack: (config) => {
     config.resolve.alias
@@ -25,26 +23,6 @@ module.exports = {
     if (process.env.VUE_APP_BUNDLE_TAG === 'production') {
       config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
     }
-
-    // return {
-    //   optimization: {
-    //     runtimeChunk: 'single',
-    //     splitChunks: {
-    //       chunks: 'all',
-    //       maxInitialRequests: Infinity,
-    //       minSize: 0,
-    //       cacheGroups: {
-    //         vendor: {
-    //           test: /[\\/]node_modules[\\/]/,
-    //           name(module) {
-    //             const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1]
-    //             return `npm.${packageName.replace('@', '')}`
-    //           }
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
   },
 
   devServer: {
