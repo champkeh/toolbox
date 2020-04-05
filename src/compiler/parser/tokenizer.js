@@ -1,88 +1,5 @@
-// 定义有限自动机的所有状态
-const DfaState = {
-  // 初始状态
-  Initial: 'Initial',
-  // 标识符状态
-  Id: 'Id',
-  // Int关键字识别的中间状态
-  Id_int1: 'Id_int1',
-  Id_int2: 'Id_int2',
-  Id_int3: 'Id_int3',
-  // 整数字面量状态
-  IntLiteral: 'IntLiteral',
-  // 比较操作符(>)状态
-  GT: 'GT',
-  // 比较操作符(>=)状态
-  GE: 'GE',
-  // 赋值操作符(=)状态
-  Assignment: 'Assignment',
-  Plus: 'Plus',
-  Minus: 'Minus',
-  Star: 'Star',
-  Slash: 'Slash'
-}
-
-// 定义token类型
-const TokenType = {
-  Identifier: 'Identifier',
-  IntLiteral: 'IntLiteral',
-  GT: 'GT',
-  GE: 'GE',
-  Assignment: 'Assignment',
-  Int: 'Int',
-  Plus: 'Plus',
-  Minus: 'Minus',
-  Star: 'Star',
-  Slash: 'Slash'
-}
-
-/**
- * 是否是英文字母字符
- * @param ch
- * @returns {boolean}
- */
-function isAlpha(ch) {
-  return /^[a-zA-Z_]$/.test(ch)
-}
-
-/**
- * 是否是数字字符
- * @param ch
- * @returns {boolean}
- */
-function isDigit(ch) {
-  return /^[0-9]$/.test(ch)
-}
-
-/**
- * 是否是空白字符
- * @param ch
- * @returns {boolean}
- */
-function isBlank(ch) {
-  return /[\t ]/.test(ch)
-}
-
-function printTokens(tokens) {
-  for (const { type, text } of tokens) {
-    console.log(`${pad(type, 20)}${text}`)
-  }
-}
-
-function pad(label, len = 10) {
-  if (label.length >= len) {
-    return label
-  } else {
-    return label + ' '.repeat(len - label.length)
-  }
-}
-
-// token数据结构
-function Token(type, text) {
-  this.type = type
-  this.text = text
-  this.valid = false
-}
+const { isAlpha, isDigit, isBlank } = require('../util')
+const { DfaState, TokenType, Token } = require('./types')
 
 // 定义一个全局变量，表示自动机的当前状态
 let state = DfaState.Initial
@@ -257,6 +174,4 @@ function tokenize(code) {
   return tokens
 }
 
-const code = '2+3*5'
-const tokens = tokenize(code)
-printTokens(tokens)
+exports.tokenize = tokenize
