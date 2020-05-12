@@ -6,15 +6,15 @@
         <div class="value">
           <div class="picker address">
             <select id="province" class="form-control" @change="onProvinceChange">
-              <option v-for="(p, index) in provinces" :key="index" :value="p.code">{{p.name}}</option>
+              <option v-for="(p, index) in provinces" :key="index" :value="p.code" :selected="p.code === selectedProvinceCode">{{p.name}}</option>
             </select>
             <select id="city" class="form-control" @change="onCityChange">
-              <option v-for="(c, index) in cities" :key="index" :value="c.code">{{c.name}}</option>
+              <option v-for="(c, index) in cities" :key="index" :value="c.code" :selected="c.code === selectedCityCode">{{c.name}}</option>
             </select>
             <select id="county" class="form-control" @change="onCountryChange">
-              <option v-for="(c, index) in countries" :key="index" :value="c.code">{{c.name}}</option>
+              <option v-for="(c, index) in countries" :key="index" :value="c.code" :selected="c.code === selectedCountryCode">{{c.name}}</option>
             </select>
-            <button class="btn small">随机</button>
+            <button class="btn small" @click="randomAddress">随机</button>
           </div>
         </div>
       </div>
@@ -22,14 +22,14 @@
         <p class="label">出生日期：</p>
         <div class="value">
           <div class="picker date">
-            <select id="year" class="form-control" @change="onYearChange">
+            <select id="year" @change="onYearChange">
               <option v-for="(y, index) in years" :key="index" :value="y" :selected="y === selectedYear">{{y}}</option>
             </select>
-            <select id="month" class="form-control" @change="onMonthChange">
+            <select id="month" @change="onMonthChange">
               <option v-for="(m, index) in months" :key="index" :value="m" :selected="m === selectedMonth">{{m}}</option>
             </select>
-            <select id="day" class="form-control" @change="onDayChange">
-              <option v-for="(d, index) in days" :key="index" :value="d">{{d}}</option>
+            <select id="day" @change="onDayChange">
+              <option v-for="(d, index) in days" :key="index" :value="d" :selected="d === selectedDay">{{d}}</option>
             </select>
             <button class="btn small" @click="randomDate">随机</button>
           </div>
@@ -40,11 +40,11 @@
         <div class="value">
           <div class="checkgroup">
             <label class="check-item">
-              <input type="radio" value="male" name="gender" @change="onCheckChange">
+              <input type="radio" value="male" name="gender" @change="onCheckChange" :checked="gender === 'male'">
               男
             </label>
             <label class="check-item">
-              <input type="radio" value="female" name="gender" @change="onCheckChange">
+              <input type="radio" value="female" name="gender" @change="onCheckChange" :checked="gender === 'female'">
               女
             </label>
           </div>
@@ -77,7 +77,11 @@
           <tr v-for="(item, index) in result" :key="index">
             <td>{{index+1}}</td>
             <td>{{item.name}}</td>
-            <td>{{item.card}}</td>
+            <td>
+              <span style="color: green">{{item.card.substr(0, 6)}}</span>
+              <span style="color: red; font-weight: 500">{{item.card.substr(6, 8)}}</span>
+              <span style="color: blue;">{{item.card.substr(14, 4)}}</span>
+            </td>
             <td>{{item.age}}</td>
           </tr>
           </tbody>
@@ -105,9 +109,9 @@ export default {
       provinces: [],
       cities: [],
       countries: [],
-      selectedProvinceCode: '',
-      selectedCityCode: '',
-      selectedCountryCode: '',
+      selectedProvinceCode: '110000',
+      selectedCityCode: '110100',
+      selectedCountryCode: '110101',
 
       years: years,
       months: months,
@@ -125,15 +129,12 @@ export default {
     // 填充初始省市数据
     const provinceLevel = ChineseDistricts['86']
     this.provinces = Object.keys(provinceLevel).map(code => ({ code, name: provinceLevel[code] }))
-    this.selectedProvinceCode = this.provinces[0].code
 
     const cityLevel = ChineseDistricts[this.selectedProvinceCode]
     this.cities = Object.keys(cityLevel).map(code => ({ code, name: cityLevel[code] }))
-    this.selectedCityCode = this.cities[0].code
 
     const countryLevel = ChineseDistricts[this.selectedCityCode]
     this.countries = Object.keys(countryLevel).map(code => ({ code, name: countryLevel[code] }))
-    this.selectedCountryCode = this.countries[0].code
   },
   methods: {
     onProvinceChange(evt) {
@@ -195,12 +196,21 @@ export default {
       this.count = Number(evt.target.value)
     },
     randomAddress() {
+      this.selectedProvinceCode = this.provinces[Math.floor(Math.random() * this.provinces.length)].code
 
+      const cityLevel = ChineseDistricts[this.selectedProvinceCode]
+      this.cities = Object.keys(cityLevel).map(code => ({ code, name: cityLevel[code] }))
+      this.selectedCityCode = this.cities[Math.floor(Math.random() * this.cities.length)].code
+
+      const countryLevel = ChineseDistricts[this.selectedCityCode]
+      this.countries = Object.keys(countryLevel).map(code => ({ code, name: countryLevel[code] }))
+      this.selectedCountryCode = this.countries[Math.floor(Math.random() * this.countries.length)].code
     },
     randomDate() {
       this.selectedYear = years[Math.floor(Math.random() * years.length)]
       this.selectedMonth = months[Math.floor(Math.random() * months.length)]
-      // this.selectedDay = months[Math.floor(Math.random() * months.length)]
+      const days = this.calculateDays()
+      this.selectedDay = days[Math.floor(Math.random() * days.length)]
     },
     generate() {
       console.log(this.gender)
