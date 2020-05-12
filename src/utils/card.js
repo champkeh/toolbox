@@ -6,8 +6,6 @@ const checks = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2']
 const cards = {}
 
 export function gen(prefix, gender) {
-  console.log('prefix: ', prefix)
-
   cards[prefix] = []
   // if (cards[prefix]) {
   //   console.log('exist prefix data: ', cards[prefix])
