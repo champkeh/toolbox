@@ -782,6 +782,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.1.2":
+  version "7.9.6"
+  resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.9.6.tgz#a9102eb5cadedf3f31d08a9ecf294af7827ea29f"
+  integrity sha512-64AF1xY3OAkFHqOb9s4jpgk1Mm5vDZ4L3acHvAml+53nO1XbXLuDodsVpO4OIUsmemlUHMxNdYMNJmsvOwLrvQ==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.8.3", "@babel/template@^7.8.6":
   version "7.8.6"
   resolved "https://registry.npm.taobao.org/@babel/template/download/@babel/template-7.8.6.tgz#86b22af15f828dfb086474f964dcc3e39c43ce2b"
@@ -7540,6 +7547,13 @@ slice-ansi@^2.1.0:
     ansi-styles "^3.2.0"
     astral-regex "^1.0.0"
     is-fullwidth-code-point "^2.0.0"
+
+sn-js-utils@^0.1.5-rc.10:
+  version "0.1.5-rc.10"
+  resolved "https://registry.npmjs.org/sn-js-utils/-/sn-js-utils-0.1.5-rc.10.tgz#1e16ed7e882bc2409670ad54551847b57380770c"
+  integrity sha512-ImtZ1+ifLpE7o7pHJWszYtnTApJjwccifgLMRg+CGG62JpP8s4hGol/TgCDiNUUr/Xvmk2b6RNMh43aOi8aD9A==
+  dependencies:
+    "@babel/runtime" "^7.1.2"
 
 snapdragon-node@^2.0.1:
   version "2.1.1"
