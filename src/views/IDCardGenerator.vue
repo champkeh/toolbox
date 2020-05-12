@@ -76,7 +76,7 @@
           <tbody>
           <tr v-for="(item, index) in result" :key="index">
             <td>{{index+1}}</td>
-            <td>{{item.name}}</td>
+            <td>{{names[index]}}</td>
             <td>
               <span style="color: green">{{item.card.substr(0, 6)}}</span>
               <span style="color: red; font-weight: 500">{{item.card.substr(6, 8)}}</span>
@@ -93,6 +93,7 @@
 <script>
 import { DateUtil } from 'sn-js-utils'
 import ChineseDistricts from './chinese-districts'
+import NamesDict from './names'
 import { gen, random } from '../utils/card'
 
 const years = new Array(2021 - 1900).fill(1900).map((n, i) => String(n + i)).reverse()
@@ -122,7 +123,8 @@ export default {
 
       gender: 'male',
       count: 10,
-      result: []
+      result: [],
+      names: []
     }
   },
   mounted() {
@@ -213,9 +215,9 @@ export default {
       this.selectedDay = days[Math.floor(Math.random() * days.length)]
     },
     generate() {
-      console.log(this.gender)
       const prefix = this.selectedCountryCode + this.selectedYear + this.selectedMonth + this.selectedDay
       this.result = random(gen(prefix, this.gender), this.count)
+      this.names = random(NamesDict, this.count)
     }
   }
 }
